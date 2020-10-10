@@ -10,7 +10,7 @@ Review the article: https://harbour.wiki/index.asp?page=PublicArticles&mode=show
 ## List of Samples:
 Folder | Covered Features
 ------------ | -------------
-Hello World | OutputDebugString<br>For Loop<br>C code in PRG file<br>Text Obfuscation<br>Preprocessor Directives<br>Code-based debugger breakpoint
-Harbour Classes | Class include<br>Classes and Objects<br>Multi-PRG Class definition
+HelloWorld | OutputDebugString<br>For Loop<br>C code in PRG file<br>Text Obfuscation<br>Preprocessor Directives<br>Code-based debugger breakpoint
+HarbourClasses | Class include<br>Classes and Objects<br>Multi-PRG Class definition
 Codeblocks | Codeblocks<br>Searching multi-dimension arrays
 
