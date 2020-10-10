@@ -1,0 +1,18 @@
+#To target the creation of an exe
+-hbexe
+
+#To only recompile changed files
+-inc
+
+#To display compiler and linker info
+-trace
+
+#Output video driver for console app
+-gtcgi
+
+-o${CCompiler}\${BuildMode}\${EXEName}
+debugger.hbm
+
+#List below the source files to compile
+
+Codeblocks.prg
