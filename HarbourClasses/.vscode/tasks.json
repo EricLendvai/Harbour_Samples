@@ -4,10 +4,13 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "CompileDebug",
-            "type": "shell",
-            "command": "${workspaceFolder}\\..\\BuildEXE.bat",
-            "args": ["mingw64","debug","HarbourClasses"],
+            "label": "RunDebug",
+            "command": "${command:workbench.action.debug.start}",
+            "options": {
+                "cwd": "${workspaceFolder}",
+                "name":"Launch Harbour Program 1",
+                "statusbar": {"label" : "<Compile and Debug>","hide" : false}
+            },
             "presentation": {
                 "echo": true,
                 "reveal": "always",
@@ -18,17 +21,132 @@
             }
         },
         {
+            "label": "CompileDebug",
+            "windows":{
+                "type": "shell",
+                "command": "${workspaceFolder}\\..\\BuildTools\\BuildEXE.bat",
+                "options": {
+                    "cwd": "${workspaceFolder}",
+                    "env": {
+                        "EXEName":"HarbourClasses",
+                        "BuildMode":"debug",
+                        "HB_COMPILER":"mingw64"
+                    },
+                    "statusbar": {"label" : "<Compile Debug>","hide" : true}
+                },
+                "presentation": {
+                    "echo": true,
+                    "reveal": "always",
+                    "focus": true,
+                    "panel": "shared",
+                    "showReuseMessage": false,
+                    "clear": true
+                }
+            },
+            "linux":{
+                "type": "shell",
+                "command": "sh ${workspaceFolder}/../BuildTools/BuildEXE.sh",
+                "options": {
+                    "cwd": "${workspaceFolder}",
+                    "env": {
+                        "EXEName":"HarbourClasses",
+                        "BuildMode":"debug",
+                        "HB_COMPILER":"gcc"
+                    },
+                    "statusbar": {"label" : "<Compile Debug>","hide" : true}
+                },
+                "presentation": {
+                    "echo": true,
+                    "reveal": "always",
+                    "focus": true,
+                    "panel": "shared",
+                    "showReuseMessage": false,
+                    "clear": true
+                }
+            }
+        },
+        {
             "label": "CompileRelease",
-            "type": "shell",
-            "command": "${workspaceFolder}\\..\\BuildEXE.bat",
-            "args": ["mingw64","release","HarbourClasses"],
-            "presentation": {
-                "echo": true,
-                "reveal": "always",
-                "focus": true,
-                "panel": "shared",
-                "showReuseMessage": false,
-                "clear": true
+            "windows":{
+                "type": "shell",
+                "command": "${workspaceFolder}\\..\\BuildTools\\BuildEXE.bat",
+                "options": {
+                    "cwd": "${workspaceFolder}",
+                    "env": {
+                        "EXEName":"HarbourClasses",
+                        "BuildMode":"release",
+                        "HB_COMPILER":"mingw64"
+                    },
+                    "statusbar": {"label" : "<Compile Release and Run>","hide" : false}
+                },
+                "presentation": {
+                    "echo": true,
+                    "reveal": "always",
+                    "focus": true,
+                    "panel": "shared",
+                    "showReuseMessage": false,
+                    "clear": true
+                }
+            },
+            "linux":{
+                "type": "shell",
+                "command": "sh ${workspaceFolder}/../BuildTools/BuildEXE.sh",
+                "options": {
+                    "cwd": "${workspaceFolder}",
+                    "env": {
+                        "EXEName":"HarbourClasses",
+                        "BuildMode":"release",
+                        "HB_COMPILER":"gcc"
+                    },
+                    "statusbar": {"label" : "<Compile Release and Run>","hide" : false}
+                },
+                "presentation": {
+                    "echo": true,
+                    "reveal": "always",
+                    "focus": true,
+                    "panel": "shared",
+                    "showReuseMessage": false,
+                    "clear": true
+                }
+            }
+        },
+        {
+            "label": "RunRelease",
+            "windows":{
+                "type": "shell",
+                "command": "${workspaceFolder}\\build\\win64\\mingw64\\release\\HarbourClasses.exe",
+                "options": {
+                    "cwd": "${workspaceFolder}",
+                    "env": {
+                    },
+                    "statusbar": {"label" : "<Run Release>","hide" : false}
+                },
+                "presentation": {
+                    "echo": true,
+                    "reveal": "always",
+                    "focus": true,
+                    "panel": "shared",
+                    "showReuseMessage": false,
+                    "clear": true
+                }
+            },
+            "linux":{
+                "type": "shell",
+                "command": "${workspaceFolder}/build/lin64/gcc/release/HarbourClasses.exe",
+                "options": {
+                    "cwd": "${workspaceFolder}",
+                    "env": {
+                    },
+                    "statusbar": {"label" : "<Run Release>","hide" : false}
+                },
+                "presentation": {
+                    "echo": true,
+                    "reveal": "always",
+                    "focus": true,
+                    "panel": "shared",
+                    "showReuseMessage": false,
+                    "clear": true
+                }
             }
         }
     ]

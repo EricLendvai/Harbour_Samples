@@ -1,0 +1,2 @@
+-obuild/lin64/${HB_COMPILER}/${BuildMode}/${EXEName}.exe
+Codeblocks.hbm

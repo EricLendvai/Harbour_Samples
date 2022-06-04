@@ -1,3 +1,6 @@
+#called by the platform specific .hbp file. 
+#Common Instructions that are platform independent
+
 #To target the creation of an exe
 -hbexe
 
@@ -10,8 +13,6 @@
 #Output video driver for console app
 -gtcgi
 
--o${CCompiler}\${BuildMode}\${EXEName}
-debugger.hbm
-
 #List below the source files to compile
-HarbourClasses.prg
+
+Codeblocks.prg

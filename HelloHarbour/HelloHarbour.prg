@@ -3,28 +3,37 @@
 Function Main()
 local l_loop
 
-MyOutputDebugString("[Harbour] Starting Hello World")
+DebugView("Starting Hello World")
 
 FOR l_loop := 1 to MAXLOOP
     ?"Hello Harbour " + alltrim(str(l_loop))
-    IF l_loop == 3
+    IF l_loop == 4
         AltD()
         ?"Paused Debugger" 
     ENDIF
 END
 
-MyOutputDebugString("[Harbour] Completed Hello World")
+DebugView("Completed Hello World")
 
 RETURN nil
 //====================================================================================
+function DebugView(par_cMessage)
+#ifdef DEBUGVIEW   // The DEBUGVIEW precompiler variable is defined in BuildEXE.bat. 
+    WindowsDebugView("[Harbour] "+par_cMessage)
+#ENDIF
+return nil
+//====================================================================================
 #pragma BEGINDUMP
-
-#include <windows.h>
 #include "hbapi.h"
+#ifdef _WIN32   // Only MS Windows has DebugView
+#include <windows.h>
+#endif
 
-HB_FUNC( MYOUTPUTDEBUGSTRING )
+HB_FUNC( WINDOWSDEBUGVIEW )
 {
+#ifdef _WIN32
    OutputDebugString( hb_parc(1) );
+#endif
 }
-
 #pragma ENDDUMP
+//====================================================================================

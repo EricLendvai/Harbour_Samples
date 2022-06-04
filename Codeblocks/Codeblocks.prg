@@ -39,8 +39,6 @@ local iTestVariable
 
 local aTest1 := {}   // Empty Array
 
-MyOutputDebugString("[Harbour] Starting Codeblocks")
-
 ?"Should be 8 => ",Eval(bAddValues,3,5)
 ?"Should be 15 => ",Eval(bMultiplyValue,3,5)
 ?"Complex Calc of 1,2,4 => ",Eval(bComplexCalc,1,2,4)
@@ -89,14 +87,3 @@ local xResult := Eval(bCodeBlock,par1,par2)
 bCodeBlock := {|a,b|a*b*100}
 return xResult
 //====================================================================================
-#pragma BEGINDUMP
-
-#include <windows.h>
-#include "hbapi.h"
-
-HB_FUNC( MYOUTPUTDEBUGSTRING )
-{
-   OutputDebugString( hb_parc(1) );
-}
-
-#pragma ENDDUMP

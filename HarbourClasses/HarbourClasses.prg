@@ -17,76 +17,63 @@ endwith
 
 ?
 
-
 RETURN nil
-//--------------------------------------------------------------------------------------
+//====================================================================================
 class Cars 
-    hidden:
-        data Max_Speed init 0          // Should be value from 1 to 10
-        data Version   init "1.0"
+hidden:
+    data Max_Speed init 0          // Should be value from 1 to 10
+    data Version   init "1.0"
 
-    exported:
-        data Model     init "Unknow"
+exported:
+    data Model     init "Unknow"
 
-        method SetMaxSpeed(par_speed)
-        method Drive(par_Distance)
+    method SetMaxSpeed(par_speed)
+    method Drive(par_Distance)
 
-        method InitClass()
+    method InitClass()
 
-        method new()
-        method init()
+    method new()
+    method init()
 
-        method ExtraMethod()
+    method ExtraMethod()
 
-        DESTRUCTOR destroy
+    DESTRUCTOR destroy
 endclass
 
 method InitClass() class Cars
-    ?"Called class InitClass"
+?"Called class InitClass"
 return self
 
 
 method new() class Cars
-    ?"Called class new"
+?"Called class new"
 return self
 
 method init() class Cars
-    ?"Called class init"
+?"Called class init"
 return self
 
 
 method SetMaxSpeed(par_speed) class Cars
-    ::Max_Speed := min(10,max(1,par_speed))
+::Max_Speed := min(10,max(1,par_speed))
 return NIL
 
 method Drive(par_Distance) class Cars
-    local iActualDistance := min(20,max(1,par_Distance))   // At least 1 and max 20
-    local iCounter
-    ?"Driving "+::Model+" "
-    for iCounter = 1 to iActualDistance
-        hb_idleSleep((11-::Max_Speed)/10)
-        ??"-"
-    endfor
+local iActualDistance := min(20,max(1,par_Distance))   // At least 1 and max 20
+local iCounter
+?"Driving "+::Model+" "
+for iCounter = 1 to iActualDistance
+    hb_idleSleep((11-::Max_Speed)/10)
+    ??"-"
+endfor
 return NIL
 
 
 method destroy() class Cars
 ?"Called class destroy for model "+::Model
 return NIL
-//--------------------------------------------------------------------------------------
+//====================================================================================
 
 #include "HarbourClasses_Extra1.prg"
 
-//--------------------------------------------------------------------------------------
-#pragma BEGINDUMP
-
-#include <windows.h>
-#include "hbapi.h"
-
-HB_FUNC( OUTPUTDEBUGSTRING )
-{
-    OutputDebugString( hb_parc(1) );
-}
-
-#pragma ENDDUMP
-//--------------------------------------------------------------------------------------
+//====================================================================================

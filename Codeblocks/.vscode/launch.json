@@ -8,11 +8,16 @@
             "type": "harbour-dbg",
             "request": "launch",
             "name": "Launch Harbour Program",
-            "program": "${workspaceFolder}\\mingw64\\debug\\${workspaceFolderBasename}.exe",
             "stopOnEntry": false,
             "preLaunchTask": "CompileDebug",
             "postDebugTask": "",
             "workingDir": "${workspaceFolder}",
+            "windows":{
+                "program": "${workspaceFolder}\\build\\win64\\mingw64\\debug\\Codeblocks.exe",
+            },
+            "linux":{
+                "program": "${workspaceFolder}/build/lin64/gcc/debug/Codeblocks.exe",
+            },
             "sourcePaths": [
                 "${workspaceFolder}"
             ]
