@@ -13,3 +13,4 @@ Folder | Covered Features
 HelloWorld | OutputDebugString<br>For Loop<br>C code in PRG file<br>Text Obfuscation<br>Preprocessor Directives<br>Code-based debugger breakpoint
 HarbourClasses | Class include<br>Classes and Objects<br>Multi-PRG Class definition
 Codeblocks | Codeblocks<br>Searching multi-dimension arrays
+LocalTables | Creating dbf tables and indexes files<br>Creating VFP compatible tables and multi tag indexes<br>Use of multiple workareas
