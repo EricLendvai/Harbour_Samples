@@ -1,0 +1,13 @@
+{
+    "folders": [
+        {
+            "path": "."
+        },
+        {
+            "path": "../BuildTools/"
+        }
+    ],
+    "settings": {
+        "editor.fontSize": 15
+    }
+}
