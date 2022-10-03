@@ -33,8 +33,8 @@ HB_FUNC( WINDOWSDEBUGVIEW )
 {
 #ifdef _WIN32
    OutputDebugString( hb_parc(1) );
-#else
-    TRACE("Will appear only in the debugger's output window while debugging");
+// #else
+//     TRACE("Will appear only in the debugger's output window while debugging");
 #endif
 }
 #pragma ENDDUMP
