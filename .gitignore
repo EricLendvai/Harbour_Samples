@@ -11,3 +11,5 @@
 .hbmk
 *.NotInGit
 Thumbs.db
+*.rnd
+*.*_rnd

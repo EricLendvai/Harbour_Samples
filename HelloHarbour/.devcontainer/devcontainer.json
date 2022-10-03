@@ -1,0 +1,52 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the README at:
+// https://github.com/microsoft/vscode-dev-containers/tree/v0.195.0/containers/javascript-node
+{
+    "name": "HelloWorld",
+    "build": {
+        "dockerfile": "Dockerfile",
+        "context":".."
+    },
+
+    // Set *default* container specific settings.json values on container create.
+    "settings": {
+        "files.autoSave": "onFocusChange",
+        "harbour.compilerExecutable": "/usr/local/bin/harbour",
+        "harbour.extraOptions": "-i/usr/local/include",
+        "harbour.extraIncludePaths":["/usr/local/include/"],
+        "harbour.warningLevel":1,
+        "harbour.decorator":true
+    },
+
+    "mounts": ["source=${localWorkspaceFolder}\\..\\BuildTools,target=${containerWorkspaceFolder}/../BuildTools,type=bind,consistency=default"],
+
+    // "mounts": ["source=R:\\Harbour_Samples\\BuildTools,target=/workspaces/BuildTools,type=bind,consistency=default"],
+
+
+    // Use 'forwardPorts' to make a list of ports inside the container available locally.
+    //"forwardPorts": [80, 5432],
+
+    // Use 'portsAttributes' to set default properties for specific forwarded ports. More info1: https://code.visualstudio.com/docs/remote/devcontainerjson-reference.
+    //"portsAttributes": {
+    //    "80": {
+    //        "label": "Apache",
+    //        "onAutoForward": "notify"
+    //    }
+    //},
+
+    // Use 'otherPortsAttributes' to configure any ports that aren't configured using 'portsAttributes'.
+    //"otherPortsAttributes": {
+    //         "onAutoForward": "silent"
+    //},
+
+    // Use 'postCreateCommand' to run commands after the container is created.
+    //"postStartCommand": "service postgresql start; service apache2 start" //start services
+
+    // Comment out connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
+    //"remoteUser": "node"
+
+    // Add the IDs of extensions you want installed when the container is created.
+    "extensions": [
+        "aperricone.harbour@1.0.3",
+        "actboy168.tasks"
+    ]
+}
