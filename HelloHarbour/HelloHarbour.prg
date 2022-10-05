@@ -18,23 +18,32 @@ DebugView("Completed Hello World")
 RETURN nil
 //====================================================================================
 function DebugView(par_cMessage)
-#ifdef DEBUGVIEW   // The DEBUGVIEW precompiler variable is defined in BuildEXE.bat. 
-    WindowsDebugView("[Harbour] "+par_cMessage)
-#ENDIF
+#ifdef DEBUGVIEW   // The DEBUGVIEW precompiler variable is defined in BuildEXE.bat and BuildEXE.sh
+    if hb_osIsWin7()
+        DebugViewOrTrace("[Harbour] "+par_cMessage)
+    else
+        DebugViewOrTrace(par_cMessage)  // No need to prefix with [Harbour], since the SysLog call will also prefix it.
+    endif
+#endif
 return nil
 //====================================================================================
 #pragma BEGINDUMP
 #include "hbapi.h"
 #ifdef _WIN32   // Only MS Windows has DebugView
-#include <windows.h>
+    #include <windows.h>
+#else
+    #include <syslog.h>
 #endif
 
-HB_FUNC( WINDOWSDEBUGVIEW )
+HB_FUNC( DEBUGVIEWORTRACE )
 {
 #ifdef _WIN32
-   OutputDebugString( hb_parc(1) );
-// #else
-//     TRACE("Will appear only in the debugger's output window while debugging");
+   OutputDebugString( hb_parc(1) );  // Using Windows DebugView
+#else
+    setlogmask(LOG_UPTO (LOG_DEBUG));
+    openlog("[Harbour]", LOG_PID | LOG_NDELAY, LOG_LOCAL1);
+    syslog(LOG_DEBUG, hb_parc(1));
+    closelog();
 #endif
 }
 #pragma ENDDUMP
