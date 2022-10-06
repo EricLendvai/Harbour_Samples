@@ -62,6 +62,8 @@ dbUseArea(.t.,"DBFCDX", cPath+cCallLogTableName+".dbf", "CallLog"   , .t., .f., 
 ?"vfp_dbf('MyContactsByFirstName') = ",vfp_dbf('MyContactsByFirstName')
 ?"vfp_dbf('CallLog') = "   ,vfp_dbf('CallLog')
 
+//Currently the following will fail in Dev Container / Ubuntu
+altd()
 select MyContactsByFirstName
 if dbappend()
     field->FirstName := "Albert"
