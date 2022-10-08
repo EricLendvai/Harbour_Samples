@@ -1,0 +1,48 @@
+FROM ubuntu
+
+# Use this file instead of Dockerfile in devcontainer.json for building from scratch
+
+## For apt to be noninteractive
+ENV DEBIAN_FRONTEND noninteractive
+ENV DEBCONF_NONINTERACTIVE_SEEN true
+
+RUN apt-get update && apt-get install -y apt-utils
+
+RUN apt-get install -y \
+        libfcgi-dev \
+        git \
+        build-essential \
+        libfcgi-dev \
+        libgpm2 \
+        gnupg \
+        wget \
+        psmisc
+
+# Install harbour from src
+RUN git clone --depth=10 https://github.com/harbour/core.git hb32
+WORKDIR /hb32
+
+# Will request the make app to use up to 8 core.
+RUN make -j 8 install
+
+# To fix symlinks
+RUN ldconfig
+
+# Instructions for starting syslog (rsyslog) and send the syslog messages to /var/log/harbourapps.log
+RUN apt-get install -y rsyslog
+
+# As per https://stackoverflow.com/questions/56609182/openthread-environment-docker-rsyslogd-imklog-cannot-open-kernel-log-proc-km
+RUN sed -i '/imklog/s/^/#/' /etc/rsyslog.conf
+
+# To ensure future tail command will work even before any message are added.
+RUN touch /var/log/harbourapps.log
+RUN chmod ugo+rwx /var/log/harbourapps.log
+
+# Having a separate .conf file does not work. Appending the the main config file seems to make it work.
+RUN echo "local1.debug -/var/log/harbourapps.log" >> /etc/rsyslog.conf
+
+# To use the "service" instead of "systemd"
+RUN apt-get install -y orphan-sysvinit-scripts
+
+# Command to use the last 50 message from syslog calls
+# $tail -f -n50 /var/log/harbourapps.log
