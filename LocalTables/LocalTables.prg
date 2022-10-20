@@ -27,6 +27,12 @@ local cContactTableName := "Contact"
 local cCallLogTableName := "CallLog"
 local iKey
 
+// If in docker, due to a bug in not being able to lock records of shared tables on a mounted volume, the cPath should be on its OS tree structure.
+if GetEnv("InDocker") == "True"  // Environment Variable is set in the Dockerfile
+    cPath := "/Tables/"
+    ?"In Docker"
+endif
+
 hb_DirCreate(cPath)  // To ensure with have a separate folder for tables.
 
 RddSetDefault("DBFCDX")
@@ -62,8 +68,24 @@ dbUseArea(.t.,"DBFCDX", cPath+cCallLogTableName+".dbf", "CallLog"   , .t., .f., 
 ?"vfp_dbf('MyContactsByFirstName') = ",vfp_dbf('MyContactsByFirstName')
 ?"vfp_dbf('CallLog') = "   ,vfp_dbf('CallLog')
 
-//Currently the following will fail in Dev Container / Ubuntu
-altd()
+
+// //Currently the following will fail in Dev Container / Ubuntu
+// altd()
+
+// ?"List By First Name"
+// select MyContactsByFirstName
+// dbGoTop()
+// do while !eof()
+//     ?left(field->FirstName,30),left(field->LastName,30),field->dob
+//     dbSkip()
+// enddo
+
+// dbGoTop()
+// altd()
+// // ?dbRLock()   //Will fail on the mounted drive.
+// field->FirstName := "bogus"
+
+
 select MyContactsByFirstName
 if dbappend()
     field->FirstName := "Albert"
