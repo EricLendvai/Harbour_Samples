@@ -1,3 +1,3 @@
-FROM ericlendvai/harbour-samples:no-syslog
+FROM ericlendvai/harbour_basic:latest
 
-RUN echo "Using Harbour_samples no syslog"
+RUN echo "Using ericlendvai/harbour_basic:latest"

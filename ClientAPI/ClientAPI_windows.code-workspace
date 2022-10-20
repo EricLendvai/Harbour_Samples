@@ -1,0 +1,14 @@
+{
+    "folders": [
+        {
+            "path": "."
+        }
+    ],
+    "settings": {
+        "editor.fontSize": 15,
+        "local-history.path": "",
+        "local-history.treeLocation": "localHistory",
+        "local-history.daysLimit": 0,
+        "local-history.maxDisplay": 15
+    }
+}

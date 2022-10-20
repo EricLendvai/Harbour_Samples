@@ -1,0 +1,19 @@
+#called by the platform specific .hbp file. 
+#Common Instructions that are platform independent
+
+#To target the creation of an exe
+-hbexe
+
+#To only recompile changed files
+-inc
+
+#To display compiler and linker info
+-trace
+
+#Output video driver for console app
+-gtcgi
+
+#List below the source files to compile
+
+hbcurl.hbc
+ClientAPI.prg

@@ -1,0 +1,38 @@
+FROM ubuntu
+
+# other options I tried to deal with systemctl not work in docker instances.
+# FROM ericlendvai/ubuntu_22_04_with_systemctl
+# FROM ubuntu:20.04
+# FROM ubuntu:22.04
+
+# Use this file instead of Dockerfile in devcontainer.json for building from scratch
+
+# for apt to be noninteractive
+ENV DEBIAN_FRONTEND noninteractive
+ENV DEBCONF_NONINTERACTIVE_SEEN true
+
+# Used by running apps to detect if inside a docker container. Testing for existence of /.dockerenv may not always work.
+ENV InDocker=True
+
+RUN apt-get update && apt-get install -y apt-utils
+
+RUN apt-get install -y \
+        git \
+        build-essential \
+        libgpm2 \
+        gnupg \
+        wget \
+        psmisc \
+        libcurl4-openssl-dev
+
+# install harbour from src
+RUN git clone --branch master https://github.com/harbour/core.git harbour
+WORKDIR /harbour
+
+ENV HB_WITH_CURL=/usr/include/x86_64-linux-gnu/
+
+# Will request the make app to use up to 8 core.
+RUN make -j 8 install
+
+#To fix symlinks
+RUN ldconfig
