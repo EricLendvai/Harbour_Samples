@@ -1,7 +1,4 @@
-FROM ericlendvai/harbour_basic:latest
-
-# Used the harbour_basic as base, will be re-running harbour build, but image will be smaller.
-# FROM ubuntu
+FROM ubuntu
 
 ## for apt to be noninteractive
 ENV DEBIAN_FRONTEND noninteractive
@@ -76,6 +73,3 @@ RUN ./BuildLIB.sh
 ENV HB_VFP_ROOT /src/Harbour_VFP/
 ENV HB_ORM_ROOT /src/Harbour_ORM/
 ENV HB_FASTCGI_ROOT /src/Harbour_FastCGI/
-
-
-

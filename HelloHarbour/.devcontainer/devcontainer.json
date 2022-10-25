@@ -3,8 +3,8 @@
 {
     "name": "Helloharbour",
     "build": {
-        "dockerfile": "Dockerfile",
-        "context":".."
+        "dockerfile": "Dockerfile_Base_With_Syslog",
+        "context": ".."
     },
 
     // Set *default* container specific settings.json values on container create.

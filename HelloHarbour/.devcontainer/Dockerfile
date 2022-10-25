@@ -1,7 +1,7 @@
-FROM ericlendvai/harbour-simple:latest
+FROM ericlendvai/harbour_basic:latest
 # See file Harbour_Samples\Docker\harbour_basic\Dockerfile to view how this harbour_basic docker image was created.
 
-RUN echo "Using Harbour-simple:latest as base"
+RUN echo "Using Harbour_basic:latest as base"
 
 # The following instructions are needed under WSL (Windows Subsystem for Linux) with Ubuntu 20.04 distro
 

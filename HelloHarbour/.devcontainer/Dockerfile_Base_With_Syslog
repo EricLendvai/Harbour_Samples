@@ -19,8 +19,8 @@ RUN apt-get install -y \
         psmisc
 
 # Install harbour from src
-RUN git clone --branch master https://github.com/harbour/core.git hb32
-WORKDIR /hb32
+RUN git clone --branch master https://github.com/harbour/core.git harbour
+WORKDIR /harbour
 
 # Will request the make app to use up to 8 core.
 RUN make -j 8 install

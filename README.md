@@ -4,23 +4,31 @@ Used to demonstrate simple Harbour programs, to compile and run in MS Windows or
 Each sample program is located in its own folder and has two related .code-workspace VSCODE workspace file, one when building under MS Windows, the other one under Linux.   
 The files in the BuildTools folder of this repo are used by all samples.   
 
+Each sample also has settings to run using Dev Containers.
+
+To learn about how to use VSCode for Harbour, review the article: https://harbour.wiki/index.asp?page=PublicArticles&mode=show&id=190401174818&sig=6893630672   
+To learn about how to use WSL/Docker/Ubuntu for Harbour, review the article https://harbour.wiki/index.asp?page=PublicArticles&mode=show&id=221022022831&sig=9123873596
+
 Please update the file vscode_debugger.prg using the VSCODE "Harbour: Get debugger code" command.   
-Review the article: https://harbour.wiki/index.asp?page=PublicArticles&mode=show&id=190401174818&sig=6893630672   
 
 ## List of Samples:
 Folder | Covered Features
 ------------ | -------------
-HelloHarbour | OutputDebugString<br>For Loop<br>C code in PRG file<br>Text Obfuscation<br>Preprocessor Directives<br>Code-based debugger breakpoint
+HelloHarbour | OutputDebugString<br>For Loop<br>C code in PRG file<br>Text Obfuscation<br>Preprocessor Directives<br>Code-based debugger breakpoint<br>Dev Containers and Ubuntu
 HarbourClasses | Class include<br>Classes and Objects<br>Multi-PRG Class definition
 Codeblocks | Codeblocks<br>Searching multi-dimension arrays
 LocalTables | Creating dbf tables and indexes files<br>Creating VFP compatible tables and multi tag indexes<br>Use of multiple workareas
+ClientAPI | Calling external APIs. To be used with Dev Containers only for now.
 
 ## Developing with Dev Containers
 Run and debug your code in Linux while editing your code in your host OS, like Windows/Mac. All your code remain in your local file system and is mounted in the docker container.   
 The HelloHarbour example has all the files needed to test out "Dev Containers".   
 Install the "Dev Containers" extension in VSCode.   
-Under Microsoft Windows use WSL2 and the Ubuntu 20.04 distro.   
+Under Microsoft Windows use WSL2 and the Ubuntu 20.04 distro or newer.   
 [For more info about developing in a Docker container](https://code.visualstudio.com/docs/remote/remote-overview)   
+
+## Installing WSL in Windows
+Please review the article https://harbour.wiki/index.asp?page=PublicArticles&mode=show&id=221022022831&sig=9123873596   
 
 ## Additional Debugging instructions Under Linux
 
