@@ -1,0 +1,44 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the README at:
+// https://github.com/microsoft/vscode-dev-containers/tree/v0.195.0/containers/javascript-node
+{
+    "name": "WebSite",
+    "build": {
+// Use the following line to build using a preset image available from Docker Hub. This will trigger a 600 Mb download the first time, but much faster to use
+       "dockerfile": "Dockerfile_cloud_based",
+        "context":".."
+    },
+
+    // Set *default* container specific settings.json values on container create.
+    "settings": {
+        "files.autoSave": "onFocusChange",
+        "harbour.compilerExecutable": "/usr/local/bin/harbour",
+        "harbour.extraOptions": "-i/usr/local/include",
+        "harbour.extraIncludePaths":["/usr/local/include/"],
+        "harbour.warningLevel":1,
+        "harbour.decorator":true
+    },
+
+    "mounts": ["source=${localWorkspaceFolder}\\..\\BuildTools,target=${containerWorkspaceFolder}/../BuildTools,type=bind,consistency=default",
+               "source=${localWorkspaceFolder}\\..\\Docker,target=${containerWorkspaceFolder}/../Docker,type=bind,consistency=default"],
+
+    // Use 'forwardPorts' to make a list of ports inside the container available locally.
+    "forwardPorts": [80],
+
+    // Use 'portsAttributes' to set default properties for specific forwarded ports. More info1: https://code.visualstudio.com/docs/remote/devcontainerjson-reference.
+    "portsAttributes": {
+       "80": {
+           "label": "Apache",
+           "onAutoForward": "notify"
+       }
+    },
+
+    "postStartCommand": "service apache2 start", //start services
+
+
+    // Add the IDs of extensions you want installed when the container is created.
+    "extensions": [
+        "aperricone.harbour",
+        "actboy168.tasks",
+        "xpo.local-history"
+    ]
+}

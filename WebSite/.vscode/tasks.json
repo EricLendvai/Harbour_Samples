@@ -1,0 +1,146 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "SwitchOS",
+            "windows": {
+                "command": "${command:remote-containers.reopenInContainer}",
+                "options": {
+                    "statusbar": {"label" : "<Open Container - Go to Ubuntu>","hide" : false}
+                }
+            },
+            "linux": {
+                "command": "${command:remote-containers.reopenLocally}",
+                "options": {
+                    "statusbar": {"label" : "<Close Container - Go to Windows>","hide" : false}
+                }
+            },
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": true,
+                "panel": "shared",
+                "showReuseMessage": false,
+                "clear": true
+            }
+        },
+        {
+            "label": "CompileDebug",
+            "windows": {
+                "command": "${command:remote-containers.reopenInContainer}",
+                "options": {
+                    "statusbar": {"label" : "<Open Container Instead>","hide" : false}
+                }
+            },
+            "linux": {
+                "type": "shell",
+                "command": "sh ${workspaceFolder}/../BuildTools/BuildEXE.sh",
+                "options": {
+                    "cwd": "${workspaceFolder}",
+                    "env": {
+                        "EXEName":"WebSite",
+                        "BuildMode":"debug",
+                        "ApplicationType":"web",
+                        "HB_COMPILER":"gcc",
+                        "WebsiteDrive":"",
+                        "SiteRootFolder":"/var/www/"
+                    },
+                    "statusbar": {"label" : "<Compile Debug>","hide" : false}
+                }
+            },
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": true,
+                "panel": "shared",
+                "showReuseMessage": false,
+                "clear": true
+            }
+        },
+        {
+            "label": "RunDebug",
+            "command": "${command:workbench.action.debug.start}",
+            "options": {
+                "cwd": "${workspaceFolder}",
+                "statusbar": {"label" : "<Debug>","hide" : false}
+            },
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": true,
+                "panel": "shared",
+                "showReuseMessage": false,
+                "clear": true
+            }
+        },
+        {
+            "label": "CompileRelease",
+            "type": "shell",
+            "windows": {
+                "command": "echo Open Container Instead",
+                "options": {"statusbar": {"label": "<Not Active In Windows>","hide": true}},
+                "presentation": {"reveal": "never"}
+            },
+            "linux":{
+                "command": "sh ${workspaceFolder}/../BuildTools/BuildEXE.sh",
+                "options": {
+                    "cwd": "${workspaceFolder}",
+                    "env": {
+                        "EXEName":"WebSite",
+                        "BuildMode":"release",
+                        "ApplicationType":"web",
+                        "HB_COMPILER":"gcc",
+                        "WebsiteDrive":"",
+                        "SiteRootFolder":"/var/www/"
+                    },
+                    "statusbar": {"label" : "<Compile Release>","hide" : false}
+                },
+                "presentation": {
+                    "echo": true,
+                    "reveal": "always",
+                    "focus": true,
+                    "panel": "shared",
+                    "showReuseMessage": false,
+                    "clear": true
+                }
+            }
+        },
+        {
+            "label":"KillFcgiExe",
+            "type": "shell",
+            "windows":{
+                "command": "echo Open Container Instead",
+                "options": {"statusbar": {"label": "<Not Active In Windows>","hide": true}},
+                "presentation": {"reveal": "never"}
+            },
+            "linux": {
+                "command":"taskkill",
+                "args": ["/IM","FCGIWebSite.exe","/f","/t"],
+                "options": {"statusbar": {"hide" : true}}
+            }
+        },
+        {
+            "label": "DelAllPPO",
+            "type": "shell",
+            "windows":{
+                "command": "del *.ppo",
+                "isBackground": true,
+                "options": {
+                    "cwd": "${workspaceFolder}",
+                    "statusbar": {"label" : "<Del All PPO>","hide" : false}
+                }
+            },
+            "linux": {
+                "command": "rm *.ppo",
+                "isBackground": true,
+                "options": {
+                    "cwd": "${workspaceFolder}",
+                    "statusbar": {"label" : "<Del All PPO>","hide" : false}
+                }
+            },
+            "presentation": {"reveal": "never"}
+        },
+    ]
+}

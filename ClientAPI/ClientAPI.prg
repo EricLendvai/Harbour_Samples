@@ -1,7 +1,10 @@
+//Copyright (c) 2023 Eric Lendvai, MIT License
 
 #include "hbcurl.ch"
 
 Function Main()
+
+local l_lInDocker := (hb_GetEnv("InDocker","False") == "True") .or. File("/.dockerenv")
 
 local l_pCurlHandle
 local l_aHeaderParameter := {}
@@ -10,23 +13,20 @@ local l_cResult
 local l_cURL
 local l_oAPIReturn
 
-// If in docker, due to a bug in not being able to lock records of shared tables on a mounted volume, the cPath should be on its OS tree structure.
-if GetEnv("InDocker") == "True"  // Environment Variable is set in the Dockerfile
-    cPath := "/Tables/"
+if l_lInDocker  // Environment Variable is set in the Dockerfile
     ?"In Docker"
 endif
 
 ?"ClientAPI"
 ?
 
-
+altd()
 
 l_cURL := "https://api.zippopotam.us/us/90210"
 
 
 // l_cURL := "http://host.docker.internal:8164/fcgi_DataWharf/api/applicationInformation"
 // AAdd(l_aHeaderParameter,"AccessToken: 0123456789")
-
 
 
 if empty(Curl_Global_Init())
@@ -76,4 +76,3 @@ RETURN nil
 //=================================================================================================================
 //=================================================================================================================
 //=================================================================================================================
-//v17

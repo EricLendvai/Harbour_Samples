@@ -1,0 +1,137 @@
+
+#finish a redirect of http to https
+
+# Example of docker build and run commands
+#
+#
+# docker build . -f Dockerfile_Production -t ericlendvai/harbour_samples_website:latest
+# Following is the same except with no-cache
+# docker build . -f Dockerfile_Production -t ericlendvai/harbour_samples_website:latest --build-arg EXPOSED_PORT=80  --build-arg SSL_MODE=OFF  --no-cache
+# docker run --hostname=ed2c5c362b4e --user=root --mac-address=02:42:ac:11:00:02 --env=PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin --env=DEBIAN_FRONTEND=noninteractive --env=DEBCONF_NONINTERACTIVE_SEEN=true --env=APACHE_RUN_USER=www-data --env=APACHE_RUN_GROUP=www-data --env=APACHE_LOG_DIR=/var/log/apache2 --env=APACHE_LOCK_DIR=/var/lock/apache2 --env=APACHE_PID_FILE=/var/run/apache2.pid --env=EXEName=WebSite --env=BuildMode=release --env=HB_COMPILER=gcc -p 82:80 --runtime=runc -d ericlendvai/harbour_samples_website:latest
+#To browse:  http://localhost:82/
+# If localhost has no other server responding on 80, we can use 80 instead of 82.
+#
+#
+#
+# For Secure / ssl browsing, using a self signed certificate
+# docker build . -f Dockerfile_Production -t ericlendvai/harbour_samples_website:latest --build-arg EXPOSED_PORT=443 --build-arg SSL_MODE=ON  --no-cache
+# docker run --hostname=ed2c5c362b4e --user=root --mac-address=02:42:ac:11:00:02 --env=PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin --env=DEBIAN_FRONTEND=noninteractive --env=DEBCONF_NONINTERACTIVE_SEEN=true --env=APACHE_RUN_USER=www-data --env=APACHE_RUN_GROUP=www-data --env=APACHE_LOG_DIR=/var/log/apache2 --env=APACHE_LOCK_DIR=/var/lock/apache2 --env=APACHE_PID_FILE=/var/run/apache2.pid --env=EXEName=WebSite --env=BuildMode=release --env=HB_COMPILER=gcc -p 444:443 -p 82:80 --runtime=runc -d ericlendvai/harbour_samples_website:latest
+#To browse:  https://localhost:444    But in Firefox will need to accept the risk for browsing since this is a self-signed certificate
+# If localhost has no other server responding on 443, we can use 443 instead of 444.
+# 
+#
+
+FROM ericlendvai/harbour_curl_hb-orm_hb-vfp_hb-fastcgi_apache_odbc-postgresql:latest as builder
+
+RUN echo "Using ericlendvai/harbour_curl_hb-orm_hb-vfp_hb-fastcgi_apache_odbc-postgresql"
+
+ARG SSL_MODE=OFF
+
+ENV EXEName WebSite
+ENV BuildMode release
+ENV HB_COMPILER gcc
+
+RUN mkdir -p /src
+COPY . /src
+
+WORKDIR /src
+RUN mkdir -p build/lin64/${HB_COMPILER}/${BuildMode}/hbmk2
+RUN hbmk2 ${EXEName}_linux.hbp -w3 -dDONOTINCLUDE -workdir=./build/lin64/${HB_COMPILER}/${BuildMode}/hbmk2/ -static
+
+# Create a self signed ssl certificat to help run in https mode
+# RUN openssl req -new -newkey rsa:4096 -days 3650 -nodes -x509 -subj "/C=US/ST=Washington/L=MyLocation/O=MyOrg/CN=localhost" -keyout ./ssl.key -out ./ssl.crt
+
+RUN if [ "$SSL_MODE" = "ON" ] ; then openssl req -new -newkey rsa:4096 -days 3650 -nodes -x509 -subj "/C=US/ST=Washington/L=MyLocation/O=MyOrg/CN=localhost" -keyout ./ssl.key -out ./ssl.crt ; else touch ssl.off ; fi
+
+#Settings for openssl -subj
+#  C = Country
+# ST = State/Province
+#  L = Locality
+#  O = Organization
+# CN = Common Name
+
+#--------------------------------------------------------------------------------------------------------------------------------
+
+FROM ubuntu
+
+ARG WebSiteRootFolder=/var/www
+ARG SSL_MODE=OFF
+ARG EXPOSED_PORT=80
+
+## for apt to be noninteractive
+ENV DEBIAN_FRONTEND noninteractive
+ENV DEBCONF_NONINTERACTIVE_SEEN true
+
+ENV APACHE_RUN_USER www-data
+ENV APACHE_RUN_GROUP www-data
+ENV APACHE_LOG_DIR /var/log/apache2
+ENV APACHE_LOCK_DIR /var/lock/apache2
+ENV APACHE_PID_FILE /var/run/apache2.pid
+
+ENV EXEName WebSite
+ENV BuildMode release
+ENV HB_COMPILER gcc
+
+RUN apt-get update && \
+    apt-get -y upgrade && \
+    apt-get -y install \
+    apache2 \
+    libfcgi-dev \
+    libapache2-mod-fcgid
+
+# Required for the a2enmod
+USER root
+
+RUN a2enmod rewrite
+
+# RUN a2enmod ssl
+RUN if [ "$SSL_MODE" = "ON" ] ; then a2enmod ssl ; fi
+
+RUN mkdir -p ${WebSiteRootFolder}/apache-logs/
+RUN mkdir -p ${WebSiteRootFolder}/backend/
+RUN mkdir -p ${WebSiteRootFolder}/website/
+RUN mkdir -p ${WebSiteRootFolder}/Apache2Temp/
+RUN mkdir -p /etc/apache2/ssl/
+
+# COPY ./FilesForPublishedWebsites/LinuxApache2/website.conf /etc/apache2/sites-enabled/000-default.conf
+COPY ./FilesForPublishedWebsites/LinuxApache2/website*.conf ${WebSiteRootFolder}/Apache2Temp/
+RUN if [ "$SSL_MODE" = "ON" ] ; \
+    then cp ${WebSiteRootFolder}/Apache2Temp/website-ssl.conf /etc/apache2/sites-enabled/000-default.conf; \
+    else cp ${WebSiteRootFolder}/Apache2Temp/website.conf /etc/apache2/sites-enabled/000-default.conf ; \
+    fi
+#RUN rm -rf /etc/apache2/ssl/
+
+COPY ./FilesForPublishedWebsites/LinuxApache2/fcgid.conf /etc/apache2/mods-available/
+
+COPY ./FilesForPublishedWebsites/backend ${WebSiteRootFolder}/backend
+COPY ./FilesForPublishedWebsites/website ${WebSiteRootFolder}/website
+
+COPY --from=builder /src/build/lin64/${HB_COMPILER}/${BuildMode}/${EXEName}.exe /var/www/backend/FCGI${EXEName}.exe
+
+RUN sed -i 's/FCGIEXEName/FCGI'$EXEName'/g' ${WebSiteRootFolder}/website/.htaccess
+
+COPY --from=builder /src/ssl.* /etc/apache2/ssl/
+
+RUN chown -R www-data:www-data /var/www
+
+RUN update-rc.d apache2 defaults
+
+#Trick to default to a port. Also having 2 EXPOSE 80 will not generate an error
+
+EXPOSE 80
+EXPOSE $EXPOSED_PORT
+
+
+
+
+#ARG RUNMODE="APACHE"
+#
+#CMD if [ ${RUNMODE} = "APACHE" ] ; then apache2ctl -D FOREGROUND ; fi
+
+# ENTRYPOINT if ${RUNMODE} = "OTHER" ; then ["tail", "-f", "/dev/null"] ; fi
+
+
+CMD apache2ctl -D FOREGROUND
+
+#To not exit the container
+#ENTRYPOINT ["tail", "-f", "/dev/null"]

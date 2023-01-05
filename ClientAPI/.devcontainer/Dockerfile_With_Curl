@@ -1,6 +1,6 @@
-FROM ubuntu
+FROM ubuntu:22.04
 
-# other options I tried to deal with systemctl not work in docker instances.
+# other options I tried to deal with systemctl not working in docker instances.
 # FROM ericlendvai/ubuntu_22_04_with_systemctl
 # FROM ubuntu:20.04
 # FROM ubuntu:22.04
@@ -26,8 +26,10 @@ RUN apt-get install -y \
         libcurl4-openssl-dev
 
 # install harbour from src
+RUN mkdir /src
+WORKDIR /src
 RUN git clone --branch master https://github.com/harbour/core.git harbour
-WORKDIR /harbour
+WORKDIR /src/harbour
 
 ENV HB_WITH_CURL=/usr/include/x86_64-linux-gnu/
 

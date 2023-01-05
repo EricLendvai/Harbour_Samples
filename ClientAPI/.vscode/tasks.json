@@ -4,12 +4,45 @@
     "version": "2.0.0",
     "tasks": [
         {
+            "label": "SwitchOS",
+            "windows": {
+                "command": "${command:remote-containers.reopenInContainer}",
+                "options": {
+                    "statusbar": {"label" : "<Open Container - Go to Ubuntu>","hide" : false}
+                }
+            },
+            "linux": {
+                "command": "${command:remote-containers.reopenLocally}",
+                "options": {
+                    "statusbar": {"label" : "<Close Container - Go to Windows>","hide" : false}
+                }
+            },
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": true,
+                "panel": "shared",
+                "showReuseMessage": false,
+                "clear": true
+            }
+        },
+        {
             "label": "RunDebug",
             "command": "${command:workbench.action.debug.start}",
-            "options": {
-                "cwd": "${workspaceFolder}",
-                "name":"Launch Harbour Program 1",
-                "statusbar": {"label" : "<Compile and Debug>","hide" : false}
+            "windows" :{
+                "options": {
+                    "cwd": "${workspaceFolder}",
+                    "name":"Launch Harbour Program 1",
+// For now this option is disabled, due to inability to add curl in Harbour mingw windows compiler
+                    "statusbar": {"label" : "<Compile and Debug>","hide" : true}
+                }
+            },
+            "linux"   :{
+                "options": {
+                    "cwd": "${workspaceFolder}",
+                    "name":"Launch Harbour Program 1",
+                    "statusbar": {"label" : "<Compile and Debug>","hide" : false}
+                }
             },
             "presentation": {
                 "echo": true,
@@ -22,8 +55,8 @@
         },
         {
             "label": "CompileDebug",
+            "type": "shell",
             "windows":{
-                "type": "shell",
                 "command": "${workspaceFolder}\\..\\BuildTools\\BuildEXE.bat",
                 "options": {
                     "cwd": "${workspaceFolder}",
@@ -33,18 +66,9 @@
                         "HB_COMPILER":"mingw64"
                     },
                     "statusbar": {"label" : "<Compile Debug>","hide" : true}
-                },
-                "presentation": {
-                    "echo": true,
-                    "reveal": "always",
-                    "focus": true,
-                    "panel": "shared",
-                    "showReuseMessage": false,
-                    "clear": true
                 }
             },
             "linux":{
-                "type": "shell",
                 "command": "sh ${workspaceFolder}/../BuildTools/BuildEXE.sh",
                 "options": {
                     "cwd": "${workspaceFolder}",
@@ -54,15 +78,15 @@
                         "HB_COMPILER":"gcc"
                     },
                     "statusbar": {"label" : "<Compile Debug>","hide" : true}
-                },
-                "presentation": {
-                    "echo": true,
-                    "reveal": "always",
-                    "focus": true,
-                    "panel": "shared",
-                    "showReuseMessage": false,
-                    "clear": true
                 }
+            },
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": true,
+                "panel": "shared",
+                "showReuseMessage": false,
+                "clear": true
             }
         },
         {
@@ -77,15 +101,8 @@
                         "BuildMode":"release",
                         "HB_COMPILER":"mingw64"
                     },
-                    "statusbar": {"label" : "<Compile Release and Run>","hide" : false}
-                },
-                "presentation": {
-                    "echo": true,
-                    "reveal": "always",
-                    "focus": true,
-                    "panel": "shared",
-                    "showReuseMessage": false,
-                    "clear": true
+// For now this option is disabled, due to inability to add curl in Harbour mingw windows compiler
+                    "statusbar": {"label" : "<Compile Release and Run>","hide" : true}
                 }
             },
             "linux":{
@@ -99,54 +116,44 @@
                         "HB_COMPILER":"gcc"
                     },
                     "statusbar": {"label" : "<Compile Release and Run>","hide" : false}
-                },
-                "presentation": {
-                    "echo": true,
-                    "reveal": "always",
-                    "focus": true,
-                    "panel": "shared",
-                    "showReuseMessage": false,
-                    "clear": true
                 }
+            },
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": true,
+                "panel": "shared",
+                "showReuseMessage": false,
+                "clear": true
             }
         },
         {
+            "type": "shell",
             "label": "RunRelease",
             "windows":{
-                "type": "shell",
                 "command": "${workspaceFolder}\\build\\win64\\mingw64\\release\\ClientAPI.exe",
                 "options": {
                     "cwd": "${workspaceFolder}",
-                    "env": {
-                    },
-                    "statusbar": {"label" : "<Run Release>","hide" : false}
-                },
-                "presentation": {
-                    "echo": true,
-                    "reveal": "always",
-                    "focus": true,
-                    "panel": "shared",
-                    "showReuseMessage": false,
-                    "clear": true
+                    "env": {},
+// For now this option is disabled, due to inability to add curl in Harbour mingw windows compiler
+                    "statusbar": {"label" : "<Run Release>","hide" : true}
                 }
             },
             "linux":{
-                "type": "shell",
                 "command": "${workspaceFolder}/build/lin64/gcc/release/ClientAPI.exe",
                 "options": {
                     "cwd": "${workspaceFolder}",
-                    "env": {
-                    },
+                    "env": {},
                     "statusbar": {"label" : "<Run Release>","hide" : false}
-                },
-                "presentation": {
-                    "echo": true,
-                    "reveal": "always",
-                    "focus": true,
-                    "panel": "shared",
-                    "showReuseMessage": false,
-                    "clear": true
                 }
+            },
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": true,
+                "panel": "shared",
+                "showReuseMessage": false,
+                "clear": true
             }
         }
     ]

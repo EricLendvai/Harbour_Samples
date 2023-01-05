@@ -4,6 +4,8 @@ Function Main()
 local oCar1 := Cars()
 local oCar2 := Cars()
 
+altd()
+
 oCar1:Model := "Subaru"
 oCar1:SetMaxSpeed(8)
 oCar1:Drive(5)

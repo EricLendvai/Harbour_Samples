@@ -11,8 +11,9 @@
 -trace
 
 #Output video driver for console app
--gtcgi
+#-gtcgi
 
 #List below the source files to compile
 
-HelloHarbour.prg
+/src/Harbour_FastCGI/hb_fcgi/hb_fcgi_linux.hbm
+WebSite.prg

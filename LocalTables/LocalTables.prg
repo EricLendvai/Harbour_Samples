@@ -9,6 +9,8 @@ request HB_CODEPAGE_EN
 
 Function Main()
 
+local l_lInDocker := (hb_GetEnv("InDocker","False") == "True") .or. File("/.dockerenv")
+
 local aTableContactStructure := {;
           {"KEY"      ,"I:+", 4,0},;
           {"FIRSTNAME","C"  ,60,0},;
@@ -20,15 +22,19 @@ local aTableCallLogStructure := {;
           {"KEY"       ,"I:+", 4,0},;
           {"FK_CONTACT","I",   4,0},;
           {"NOTE"      ,"M"  , 4,0},;
-          {"TIME"      ,"T",   8,0}}
+          {"TIME"      ,"T",   0,0},;
+          {"DATETIME"  ,"@",   0,0}}
 
 local cPath := "."+hb_ps()+"Tables"+hb_ps()   // hb_ps() will return "/" or "\" depending of the OS.
 local cContactTableName := "Contact"
 local cCallLogTableName := "CallLog"
 local iKey
+local xValue
+
+altd()
 
 // If in docker, due to a bug in not being able to lock records of shared tables on a mounted volume, the cPath should be on its OS tree structure.
-if GetEnv("InDocker") == "True"  // Environment Variable is set in the Dockerfile
+if l_lInDocker
     cPath := "/Tables/"
     ?"In Docker"
 endif
@@ -67,6 +73,11 @@ dbUseArea(.t.,"DBFCDX", cPath+cCallLogTableName+".dbf", "CallLog"   , .t., .f., 
 ?"Alias() = ",Alias()  //Is returned as upper case
 ?"vfp_dbf('MyContactsByFirstName') = ",vfp_dbf('MyContactsByFirstName')
 ?"vfp_dbf('CallLog') = "   ,vfp_dbf('CallLog')
+?'ValType(CallLog->note) = ', ValType(CallLog->note)
+xValue := CallLog->note
+?'xValue := CallLog->note + ValType(xValue) = ', ValType(xValue)
+?'ValType(CallLog->time) = ', ValType(CallLog->time)
+?'ValType(CallLog->datetime) = ', ValType(CallLog->datetime)
 
 
 // //Currently the following will fail in Dev Container / Ubuntu

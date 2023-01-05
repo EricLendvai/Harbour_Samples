@@ -5,7 +5,6 @@
         }
     ],
     "settings": {
-        "editor.fontSize": 15,
         // "harbour.compilerExecutable": "C:\\Harbour\\bin\\win\\mingw64\\harbour.exe",
         // "harbour.extraOptions": "-iC:\\Harbour\\include",
         // "harbour.extraIncludePaths":["C:\\Harbour\\include\\"],

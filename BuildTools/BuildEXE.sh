@@ -40,9 +40,9 @@ else
 # The -dDONOTINCLUDE is used to facilitate "#ifndef DONOTINCLUDE" in prg files.
 
             if [ "${BuildMode}" = "debug" ] ; then
-                hbmk2 "${EXEName}_linux.hbp"  ../BuildTools/vscode_debugger.prg -b  -p -w3 -dDEBUGVIEW -dDONOTINCLUDE -workdir="./build/lin64/${HB_COMPILER}/${BuildMode}/hbmk2/"
+                hbmk2 "${EXEName}_linux.hbp"  "../BuildTools/vscode_debugger.prg" -b  -p -w3 -dDEBUGVIEW -dDONOTINCLUDE -workdir="./build/lin64/${HB_COMPILER}/${BuildMode}/hbmk2/"
             else
-                hbmk2 "${EXEName}_linux.hbp" "${HB_FASTCGI_ROOT}/hb_fcgi/hb_fcgi_linux.hbm" -w3 -dDONOTINCLUDE -workdir="./build/lin64/${HB_COMPILER}/${BuildMode}/hbmk2/" -static
+                hbmk2 "${EXEName}_linux.hbp" -w3 -dDONOTINCLUDE -workdir="./build/lin64/${HB_COMPILER}/${BuildMode}/hbmk2/" -static
             fi
             nHbmk2Status=$?
             if [ ! -f  "build/lin64/${HB_COMPILER}/${BuildMode}/${EXEName}.exe" ]; then
@@ -55,11 +55,17 @@ else
                     echo ""
                     echo "Ready            BuildMode = ${BuildMode}"
                     if [ "${BuildMode}" = "release" ] ; then
-                        echo "-----------------------------------------------------------------------------------------------"
-                        "./build/lin64/${HB_COMPILER}/${BuildMode}/${EXEName}.exe"
-                        echo ""
-                        echo "-----------------------------------------------------------------------------------------------"
+						if [ -z "${ApplicationType}" ] ; then
+							echo "-----------------------------------------------------------------------------------------------"
+							"./build/lin64/${HB_COMPILER}/${BuildMode}/${EXEName}.exe"
+							echo ""
+							echo "-----------------------------------------------------------------------------------------------"
+						fi
                     fi
+					if [ "${ApplicationType}" = "web" ] ; then
+						killall "FCGI${EXEName}.exe"
+						cp /workspaces/${EXEName}/build/lin64/${HB_COMPILER}/${BuildMode}/${EXEName}.exe /var/www/backend/FCGI${EXEName}.exe
+					fi
                 else
                     echo "Compilation Error"
 

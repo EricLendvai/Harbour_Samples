@@ -1,2 +1,3 @@
 -obuild\win64\${HB_COMPILER}\${BuildMode}\${EXEName}.exe
+
 LocalTables.hbm

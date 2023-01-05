@@ -1,0 +1,57 @@
+FROM ericlendvai/harbour_curl_hb-orm_hb-vfp_hb-fastcgi_apache_odbc-postgresql:latest
+
+RUN echo "Using ericlendvai/harbour_curl_hb-orm_hb-vfp_hb-fastcgi_apache_odbc-postgresql"
+
+# Setup Apache Server
+
+ARG WebSiteRootFolder=/var/www
+
+# Required for the a2enmod
+USER root
+
+RUN a2enmod rewrite
+RUN mkdir -p ${WebSiteRootFolder}/apache-logs/
+RUN mkdir -p ${WebSiteRootFolder}/backend/
+RUN mkdir -p ${WebSiteRootFolder}/website/
+
+ENV APACHE_RUN_USER www-data
+ENV APACHE_RUN_GROUP www-data
+ENV APACHE_LOG_DIR /var/log/apache2
+ENV APACHE_LOCK_DIR /var/lock/apache2
+ENV APACHE_PID_FILE /var/run/apache2.pid
+#ENV WEBSITE_NAME WebSite
+ENV EXEName WebSite
+ENV BuildMode release
+ENV HB_COMPILER gcc
+
+COPY ./FilesForPublishedWebsites/LinuxApache2/website.conf /etc/apache2/sites-enabled/000-default.conf
+COPY ./FilesForPublishedWebsites/LinuxApache2/fcgid.conf /etc/apache2/mods-available/
+
+COPY ./FilesForPublishedWebsites/backend ${WebSiteRootFolder}/backend
+COPY ./FilesForPublishedWebsites/website ${WebSiteRootFolder}/website
+
+RUN sed -i 's/FCGIEXEName/FCGI'$EXEName'/g' ${WebSiteRootFolder}/website/.htaccess
+
+#RUN chown -R www-data:www-data /var/www/Harbour_websites
+RUN chown -R www-data:www-data /var/www
+
+RUN update-rc.d apache2 defaults
+
+#RUN update-rc.d postgresql defaults
+
+RUN mkdir -p /src
+COPY . /src
+
+WORKDIR /src
+RUN mkdir -p build/lin64/${HB_COMPILER}/${BuildMode}/hbmk2
+RUN hbmk2 ${EXEName}_linux.hbp -w3 -dDONOTINCLUDE -workdir=./build/lin64/${HB_COMPILER}/${BuildMode}/hbmk2/ -static
+
+RUN cp ./build/lin64/${HB_COMPILER}/${BuildMode}/${EXEName}.exe /var/www/backend/FCGI${EXEName}.exe
+
+EXPOSE 80 
+
+#Use the CMD or ENTRYPOINT
+CMD apache2ctl -D FOREGROUND
+
+#To not exit the container
+#ENTRYPOINT ["tail", "-f", "/dev/null"]
