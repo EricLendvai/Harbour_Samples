@@ -1,0 +1,9 @@
+FROM ericlendvai/harbour_basic:latest
+# See file Harbour_Samples\Docker\harbour_basic\Dockerfile to view how this harbour_basic docker image was created.
+
+RUN echo "Using Harbour_basic:latest as base"
+
+RUN apt-get install -y \
+        python3.10 \
+        python3-pip
+

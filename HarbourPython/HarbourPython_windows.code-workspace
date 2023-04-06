@@ -1,0 +1,15 @@
+{
+    "folders": [
+        {
+            "path": "."
+        }
+    ],
+    "settings": {
+        // "harbour.compilerExecutable": "C:\\Harbour\\bin\\win\\mingw64\\harbour.exe",
+        // "harbour.extraOptions": "-iC:\\Harbour\\include",
+        // "harbour.extraIncludePaths":["C:\\Harbour\\include\\"],
+        // "harbour.warningLevel":1,
+        // "harbour.decorator":true,
+        "files.autoSave": "onFocusChange"
+    }
+}

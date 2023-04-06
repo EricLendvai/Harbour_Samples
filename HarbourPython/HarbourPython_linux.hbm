@@ -1,0 +1,38 @@
+#called by the platform specific .hbp file. 
+#Common Instructions that are platform independent
+
+#To target the creation of an exe
+-hbexe
+
+#To only recompile changed files
+#-inc
+
+#To display compiler and linker info
+-trace
+
+#Output video driver for console app
+-gtcgi
+
+
+
+-I/usr/include/python3.10/
+-L/usr/lib/python3.10
+-lpython3.10
+
+
+#-i.
+#     -LC:\Pythons\3_11-64\
+#     -lpython311.dll
+
+
+
+
+#gtwvg.hbc
+
+
+
+#List below the source files to compile
+
+HarbourPython.prg
+
+python.c

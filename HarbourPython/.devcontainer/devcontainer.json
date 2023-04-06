@@ -1,0 +1,26 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the README at:
+// https://github.com/microsoft/vscode-dev-containers/tree/v0.195.0/containers/javascript-node
+{
+    "name": "HarbourPython",
+    "build": {
+        "dockerfile": "Dockerfile_Base",
+        "context": ".."
+    },
+
+    // Set *default* container specific settings.json values on container create.
+    "settings": {
+        "files.autoSave": "onFocusChange",
+        "harbour.compilerExecutable": "/usr/local/bin/harbour",
+        "harbour.extraOptions": "-i/usr/local/include",
+        "harbour.extraIncludePaths":["/usr/local/include/"],
+        "harbour.warningLevel":1,
+        "harbour.decorator":true
+    },
+
+    "mounts": ["source=${localWorkspaceFolder}\\..\\BuildTools,target=${containerWorkspaceFolder}/../BuildTools,type=bind,consistency=default"],
+
+    "extensions": [
+        "aperricone.harbour",
+        "actboy168.tasks"
+    ]
+}

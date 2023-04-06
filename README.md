@@ -20,6 +20,7 @@ Codeblocks | Codeblocks<br>Searching multi-dimension arrays
 LocalTables | Creating dbf tables and indexes files<br>Creating VFP compatible tables and multi tag indexes<br>Use of multiple workareas
 ClientAPI | Calling external APIs. To be used with Dev Containers only for now.
 WebSite | Basic Hello World (Hello Harbour) website. To be used with Dev Containers only for now.
+HarbourPython | Basic Sample console app to demonstrate how to call Python Packages from Harbour. <br>Compatible with mingw64, msvc64 and gcc (via devcontainer).<br>This is a VSCODE integration of repo created by Antonio Linares: https://github.com/FiveTechSoft/harbour_python
 
 ## Developing with Dev Containers
 Run and debug your code in Linux while editing your code in your host OS, like Windows/Mac. All your code remain in your local file system and is mounted in the docker container.   

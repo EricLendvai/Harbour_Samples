@@ -1,0 +1,3 @@
+-obuild/lin64/${HB_COMPILER}/${BuildMode}/${EXEName}.exe
+
+HarbourPython_linux.hbm
