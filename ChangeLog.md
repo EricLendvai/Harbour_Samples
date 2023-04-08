@@ -1,5 +1,8 @@
 # Harbour Samples - Change Log
 
+## 04/08/2023
+* Changed Dockerfiles of devcontainers to work around git install failure introduced around April 2023
+
 ## 04/06/2023
 * New Sample HarbourPython
 * Updated BuildTools to copy Python dll where needed.
