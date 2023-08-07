@@ -13,7 +13,7 @@
             "postDebugTask": "",
             "workingDir": "${workspaceFolder}",
             "windows":{
-                "program": "${workspaceFolder}\\build\\win64\\mingw64\\debug\\ClientAPI.exe",
+                "program": "${workspaceFolder}\\build\\win64\\${input:CCompiler}\\debug\\ClientAPI.exe",
             },
             "linux":{
                 "program": "${workspaceFolder}/build/lin64/gcc/debug/ClientAPI.exe",
@@ -21,6 +21,15 @@
             "sourcePaths": [
                 "${workspaceFolder}"
             ]
+        }
+    ],
+    "inputs": [
+        {
+            "id": "CCompiler",
+            "type": "pickString",
+            "description": "Select C Compiler",
+            "options": ["mingw64","msvc64"],
+            "default": "mingw64"
         }
     ]
 }

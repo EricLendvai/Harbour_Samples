@@ -90,3 +90,11 @@ The samples apps will only send to DebugView or SysLog messages when compiling a
 ## Warning
 Currently SysLog tracing does not work under WSL (Windows Subsystem for Linux) except under Windows 11 with Microsoft Store version of Ubuntu Distro.   
 The docker configuration in this repo, using the Dockerfile(s), can not start the service rsyslog if using the WSL engine, meaning.   
+
+## Windows OS
+No testing or development was done for Windows 32-bit.   
+Microsoft stopped providing 32-bit OS for Windows 10 OEM.   
+
+## Mac OS
+No testing of the samples were done for Mac OS.   
+All samples can also run using Ubuntu and therefore could run using Docker Desktop, which is also available for Mac Users.   

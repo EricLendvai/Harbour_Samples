@@ -13,6 +13,8 @@ local l_cResult
 local l_cURL
 local l_oAPIReturn
 
+DebugView("Starting ClientAPI")
+
 if l_lInDocker  // Environment Variable is set in the Dockerfile
     ?"In Docker"
 endif
@@ -21,6 +23,8 @@ endif
 ?
 
 altd()
+
+
 
 l_cURL := "https://api.zippopotam.us/us/90210"
 
@@ -47,6 +51,9 @@ if empty(Curl_Global_Init())
 
         //Inside of Docker container "localhost" must be "host.docker.internal"
 
+        //Under Windows, I had to do the following to avoid error:
+        Curl_Easy_SetOpt(l_pCurlHandle, HB_CURLOPT_SSL_VERIFYPEER, .f.)
+        
         Curl_Easy_SetOpt(l_pCurlHandle, HB_CURLOPT_URL, l_cURL)
 
 
@@ -76,3 +83,35 @@ RETURN nil
 //=================================================================================================================
 //=================================================================================================================
 //=================================================================================================================
+//====================================================================================
+function DebugView(par_cMessage)
+#ifdef DEBUGVIEW   // The DEBUGVIEW precompiler variable is defined in BuildEXE.bat and BuildEXE.sh
+    if hb_osIsWin7()
+        DebugViewOrTrace("[Harbour] "+par_cMessage)
+    else
+        DebugViewOrTrace(par_cMessage)  // No need to prefix with [Harbour], since the SysLog call will also prefix it.
+    endif
+#endif
+return nil
+//====================================================================================
+#pragma BEGINDUMP
+#include "hbapi.h"
+#ifdef _WIN32   // Only MS Windows has DebugView
+    #include <windows.h>
+#else
+    #include <syslog.h>
+#endif
+
+HB_FUNC( DEBUGVIEWORTRACE )
+{
+#ifdef _WIN32
+   OutputDebugString( hb_parc(1) );  // Using Windows DebugView
+#else
+    setlogmask(LOG_UPTO (LOG_DEBUG));
+    openlog("[Harbour]", LOG_PID | LOG_NDELAY, LOG_LOCAL1);
+    syslog(LOG_DEBUG, hb_parc(1));
+    closelog();
+#endif
+}
+#pragma ENDDUMP
+//====================================================================================

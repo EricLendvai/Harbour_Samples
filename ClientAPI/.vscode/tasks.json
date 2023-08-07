@@ -34,7 +34,7 @@
                     "cwd": "${workspaceFolder}",
                     "name":"Launch Harbour Program 1",
 // For now this option is disabled, due to inability to add curl in Harbour mingw windows compiler
-                    "statusbar": {"label" : "<Compile and Debug>","hide" : true}
+                    "statusbar": {"label" : "<Compile and Debug>","hide" : false}
                 }
             },
             "linux"   :{
@@ -63,7 +63,7 @@
                     "env": {
                         "EXEName":"ClientAPI",
                         "BuildMode":"debug",
-                        "HB_COMPILER":"mingw64"
+                        "HB_COMPILER":"${input:CCompiler}"
                     },
                     "statusbar": {"label" : "<Compile Debug>","hide" : true}
                 }
@@ -99,10 +99,11 @@
                     "env": {
                         "EXEName":"ClientAPI",
                         "BuildMode":"release",
-                        "HB_COMPILER":"mingw64"
+//                        "HB_COMPILER":"msvc64"
+                        "HB_COMPILER":"${input:CCompiler}"
                     },
 // For now this option is disabled, due to inability to add curl in Harbour mingw windows compiler
-                    "statusbar": {"label" : "<Compile Release and Run>","hide" : true}
+                    "statusbar": {"label" : "<Compile Release and Run>","hide" : false}
                 }
             },
             "linux":{
@@ -131,12 +132,12 @@
             "type": "shell",
             "label": "RunRelease",
             "windows":{
-                "command": "${workspaceFolder}\\build\\win64\\mingw64\\release\\ClientAPI.exe",
+                "command": "${workspaceFolder}\\build\\win64\\${input:CCompiler}\\release\\ClientAPI.exe",
                 "options": {
                     "cwd": "${workspaceFolder}",
                     "env": {},
 // For now this option is disabled, due to inability to add curl in Harbour mingw windows compiler
-                    "statusbar": {"label" : "<Run Release>","hide" : true}
+                    "statusbar": {"label" : "<Run Release>","hide" : false}
                 }
             },
             "linux":{
@@ -155,6 +156,15 @@
                 "showReuseMessage": false,
                 "clear": true
             }
+        }
+    ],
+    "inputs": [
+        {
+            "id": "CCompiler",
+            "type": "pickString",
+            "description": "Select C Compiler",
+            "options": ["mingw64","msvc64"],
+            "default": "mingw64"
         }
     ]
 }
