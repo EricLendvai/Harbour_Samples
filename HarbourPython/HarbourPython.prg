@@ -17,13 +17,17 @@ endif
 
 Py_Initialize()
 
-for l_iCounter := 1 to 1   // Did run a test for up to 1 million calls to Math(), and no failures or memory overruns detected.
-    ?l_iCounter,Math()
-endfor
+// for l_iCounter := 1 to 1   // Did run a test for up to 1 million calls to Math(), and no failures or memory overruns detected.
+    // ?l_iCounter,Math()
+// endfor
+// 
+// if hb_osIsWin7()
+    // Plot()  // Will only render in Windows. Docker only supports text output.
+// endif
 
-if hb_osIsWin7()
-    Plot()  // Will only render in Windows. Docker only supports text output.
-endif
+?SayHello()
+?Power(2.1,3.1)
+?Power(2.1,3)
 
 Py_Finalize()
 
@@ -100,6 +104,49 @@ Py_Decref( hList2 )
 // Py_Finalize()
 
 return nil
+//====================================================================================
+function SayHello()
+
+local l_xResult
+
+local hModule, hFunc, hNum, hResult
+hModule := PyImport_ImportModule("HarbourSample001") 
+hFunc := PyObject_GetAttrString( hModule,"SayHello") 
+hNum := PyUnicode_FromString( "Eric" ) 
+hResult := PyObject_CallFunctionObjArgs( hFunc, hNum ) 
+
+l_xResult := PyString_AsString( hResult )
+
+altd()
+
+Py_Decref( hNum )
+Py_Decref( hFunc )
+Py_Decref( hModule )
+
+return l_xResult
+//====================================================================================
+function Power(par_x,par_y)
+
+local l_xResult
+
+local hModule, hFunc, hNumX, hNumY, hResult
+hModule := PyImport_ImportModule( "HarbourSample001" ) 
+hFunc := PyObject_GetAttrString( hModule, "power" ) 
+hNumX := PyFloat_FromDouble( par_x ) 
+hNumY := PyFloat_FromDouble( par_y ) 
+hResult := PyObject_CallFunctionObjArgs( hFunc, hNumX, hNumY) 
+
+l_xResult := PyFloat_AsDouble( hResult )
+
+altd()
+
+Py_Decref( hNumX )
+Py_Decref( hNumY )
+Py_Decref( hFunc )
+Py_Decref( hModule )
+
+
+return l_xResult  //par_x**par_y
 //====================================================================================
 function DebugView(par_cMessage)
 #ifdef DEBUGVIEW   // The DEBUGVIEW precompiler variable is defined in BuildEXE.bat and BuildEXE.sh

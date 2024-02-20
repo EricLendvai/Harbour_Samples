@@ -61,9 +61,9 @@ copy %COPY_PYTHON_DLL_SOURCE% %COPY_PYTHON_DLL_DESTINATION%
 :: The -dDONOTINCLUDE is used to facilitate "#ifndef DONOTINCLUDE" in prg files.
 
 if %BuildMode% == debug (
-    hbmk2 "%EXEName%_windows.hbp" ..\BuildTools\vscode_debugger.prg -b -p -dDEBUGVIEW -dDONOTINCLUDE -workdir="%ROOT_PATH%\build\win64\%HB_COMPILER%\%BuildMode%\hbmk2\"
+    hbmk2 "%EXEName%_windows.hbp" ..\BuildTools\vscode_debugger.prg -b -p -w3 -dDEBUGVIEW -dDONOTINCLUDE -workdir="%ROOT_PATH%\build\win64\%HB_COMPILER%\%BuildMode%\hbmk2\"
 ) else (
-    hbmk2 "%EXEName%_windows.hbp" -dDONOTINCLUDE -workdir="%ROOT_PATH%\build\win64\%HB_COMPILER%\%BuildMode%\hbmk2\" -static
+    hbmk2 "%EXEName%_windows.hbp" -dDEBUGVIEW -dDONOTINCLUDE -workdir="%ROOT_PATH%\build\win64\%HB_COMPILER%\%BuildMode%\hbmk2\" -static
 )
 
 if not exist "%ROOT_PATH%\build\win64\%HB_COMPILER%\%BuildMode%\%EXEName%.exe" (

@@ -18,7 +18,9 @@ private oFcgi
 oFcgi := MyFcgi():New()    // Used a subclass of hb_Fcgi
 
 do while oFcgi:Wait()
-    oFcgi:OnRequest()
+    if !oFcgi:SkipRequest
+        oFcgi:OnRequest()
+    endif
 enddo
 
 SendToDebugView("Done")

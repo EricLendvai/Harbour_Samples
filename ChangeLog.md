@@ -1,5 +1,8 @@
 # Harbour Samples - Change Log
 
+## 02/20/2024
+* Refactored to use Docker images compatible with Harbour_EL instead of Harbour_VFP
+
 ## 08/06/2023
 * Added support to Microsoft Windows for the ClientAPI Sample.
 

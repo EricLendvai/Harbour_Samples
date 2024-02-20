@@ -21,13 +21,7 @@ endif
 
 ?"ClientAPI"
 ?
-
-altd()
-
-
-
 l_cURL := "https://api.zippopotam.us/us/90210"
-
 
 // l_cURL := "http://host.docker.internal:8164/fcgi_DataWharf/api/applicationInformation"
 // AAdd(l_aHeaderParameter,"AccessToken: 0123456789")
@@ -39,8 +33,9 @@ if empty(Curl_Global_Init())
     if !hb_IsNil(l_pCurlHandle)
         ?"Got a connection"
 
+        Curl_Easy_SetOpt(l_pCurlHandle, HB_CURLOPT_TIMEOUT, 3)
+
         //  {"Accept: application/json", "Content-Type: application/json"}
-        
 
         if !empty(l_aHeaderParameter)
             Curl_Easy_SetOpt(l_pCurlHandle, HB_CURLOPT_HTTPHEADER,l_aHeaderParameter)
@@ -59,7 +54,7 @@ if empty(Curl_Global_Init())
 
         Curl_Easy_SetOpt(l_pCurlHandle, HB_CURLOPT_DL_BUFF_SETUP , 100*1024)  // Max Buffer download size set to 100 Kb
 
-        altd()
+        // altd()
         l_nResult := Curl_Easy_Perform(l_pCurlHandle)
 
         if empty(l_nResult)

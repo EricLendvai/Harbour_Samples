@@ -5,7 +5,7 @@
 -hbexe
 
 #To only recompile changed files
--inc
+#-inc
 
 #To display compiler and linker info
 -trace

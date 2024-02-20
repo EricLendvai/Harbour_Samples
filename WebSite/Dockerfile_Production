@@ -21,9 +21,9 @@
 # 
 #
 
-FROM ericlendvai/harbour_curl_hb-orm_hb-vfp_hb-fastcgi_apache_odbc-postgresql:latest as builder
+FROM ericlendvai/harbour_curl_hb-orm_hb-el_hb-fastcgi_apache_odbc-postgresql:latest as builder
 
-RUN echo "Using ericlendvai/harbour_curl_hb-orm_hb-vfp_hb-fastcgi_apache_odbc-postgresql"
+RUN echo "Using ericlendvai/harbour_curl_hb-orm_hb-el_hb-fastcgi_apache_odbc-postgresql"
 
 ARG SSL_MODE=OFF
 

@@ -1,7 +1,7 @@
 #include "dbinfo.ch"
 
-#xtranslate vfp_dbf()         => DBINFO(DBI_FULLPATH)
-#xtranslate vfp_dbf(<xAlias>) => (<xAlias>)->(DBINFO(DBI_FULLPATH))
+#xtranslate el_dbf()         => DBINFO(DBI_FULLPATH)
+#xtranslate el_dbf(<xAlias>) => (<xAlias>)->(DBINFO(DBI_FULLPATH))
 
 request DBFCDX
 request DBFFPT
@@ -71,8 +71,8 @@ ordSetFocus( "tag2" )
 
 dbUseArea(.t.,"DBFCDX", cPath+cCallLogTableName+".dbf", "CallLog"   , .t., .f., "EN")  // Opened in any open workarea, shared and read-write mode.
 ?"Alias() = ",Alias()  //Is returned as upper case
-?"vfp_dbf('MyContactsByFirstName') = ",vfp_dbf('MyContactsByFirstName')
-?"vfp_dbf('CallLog') = "   ,vfp_dbf('CallLog')
+?"el_dbf('MyContactsByFirstName') = ",el_dbf('MyContactsByFirstName')
+?"el_dbf('CallLog') = "   ,el_dbf('CallLog')
 ?'ValType(CallLog->note) = ', ValType(CallLog->note)
 xValue := CallLog->note
 ?'xValue := CallLog->note + ValType(xValue) = ', ValType(xValue)
